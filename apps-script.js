@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     });
   }
 
-  let appsScriptUrl = String(process.env.APPS_SCRIPT_API_URL || '').trim();
+  let appsScriptUrl = String(process.env.APPS_SCRIPT_API_URL || 'https://script.google.com/macros/s/AKfycbxdG8NK4jcFbtU6SFi2pQzbZLroMeNhyIEK6AnOZwGKu6neU8v7lA_b2Qg9Hv_Q39D3/exec').trim();
   appsScriptUrl = appsScriptUrl.replace(/^['"]|['"]$/g, '');
 
   if (!appsScriptUrl) {
