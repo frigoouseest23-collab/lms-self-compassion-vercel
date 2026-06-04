@@ -1,0 +1,4270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <title>LMS Self-Compassion</title>
+
+  <style>
+    :root {
+      --primary: #6D5DFC;
+      --primary-dark: #4F46E5;
+      --secondary: #8B5CF6;
+      --accent: #22C55E;
+      --bg: #F6F7FB;
+      --surface: #FFFFFF;
+      --surface-soft: #FAFAFF;
+      --text: #111827;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --soft-purple: #F1EEFF;
+      --soft-green: #ECFDF5;
+      --soft-blue: #EFF6FF;
+      --soft-orange: #FFF7ED;
+      --success: #10B981;
+      --danger: #EF4444;
+      --warning: #F59E0B;
+      --shadow: 0 24px 70px rgba(31, 41, 55, 0.14);
+      --card-shadow: 0 14px 34px rgba(31, 41, 55, 0.08);
+      --radius-xl: 30px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --sidebar-width: 302px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, #ede9fe 0, transparent 34%),
+        radial-gradient(circle at bottom right, #dbeafe 0, transparent 30%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    svg {
+      display: block;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 20px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .auth-page {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    .auth-shell {
+      width: 100%;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 54% 46%;
+      background: rgba(255,255,255,0.86);
+      overflow: hidden;
+    }
+
+    .hero-panel {
+      position: relative;
+      padding: clamp(42px, 5vw, 76px);
+      color: white;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        linear-gradient(135deg, rgba(79, 70, 229, 0.96), rgba(139, 92, 246, 0.94)),
+        radial-gradient(circle at top right, rgba(255,255,255,0.22), transparent 35%);
+    }
+
+    .hero-panel::before,
+    .hero-panel::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .hero-panel::before {
+      width: 360px;
+      height: 360px;
+      top: -140px;
+      right: -90px;
+    }
+
+    .hero-panel::after {
+      width: 220px;
+      height: 220px;
+      bottom: 90px;
+      left: -90px;
+    }
+
+    .brand-pill {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 54px;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #BBF7D0;
+      box-shadow: 0 0 18px rgba(187,247,208,0.95);
+    }
+
+    .hero-title {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(42px, 5vw, 72px);
+      line-height: 1.04;
+      letter-spacing: -2.6px;
+      max-width: 780px;
+      margin-bottom: 24px;
+    }
+
+    .hero-desc {
+      position: relative;
+      z-index: 2;
+      max-width: 650px;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(16px, 1.2vw, 19px);
+      line-height: 1.75;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 52px;
+      max-width: 840px;
+    }
+
+    .hero-mini-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.20);
+    }
+
+    .hero-mini-card strong {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .hero-mini-card span {
+      font-size: 13px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.45;
+    }
+
+    .auth-panel {
+      padding: clamp(28px, 4vw, 70px);
+      background: rgba(255,255,255,0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .auth-heading {
+      margin-bottom: 26px;
+    }
+
+    .auth-heading h2 {
+      font-size: 34px;
+      letter-spacing: -0.9px;
+      margin-bottom: 10px;
+    }
+
+    .auth-heading p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 6px;
+      background: #F3F4F6;
+      border-radius: 18px;
+      margin-bottom: 22px;
+    }
+
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 13px 16px;
+      border-radius: 14px;
+      font-weight: 900;
+      color: var(--muted);
+      transition: 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(31,41,55,0.08);
+    }
+
+    .alert {
+      display: none;
+      padding: 13px 15px;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .alert.show {
+      display: block;
+    }
+
+    .alert.success {
+      background: #ECFDF5;
+      color: #047857;
+      border: 1px solid #A7F3D0;
+    }
+
+    .alert.error {
+      background: #FEF2F2;
+      color: #B91C1C;
+      border: 1px solid #FECACA;
+    }
+
+    .alert.info {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+    }
+
+    .form-box {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .form-box.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 850;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+
+    .input-control {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 14px 16px;
+      font-size: 15px;
+      outline: none;
+      background: white;
+      transition: 0.2s ease;
+    }
+
+    .input-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(109,93,252,0.12);
+    }
+
+    .input-control[readonly] {
+      background: #F9FAFB;
+      color: #6B7280;
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 14px;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-wrap .input-control {
+      padding-right: 52px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 11px;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+    }
+
+    .toggle-password:hover {
+      background: var(--soft-purple);
+    }
+
+    .toggle-password svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2.2;
+    }
+
+    .note-box {
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-light,
+    .btn-outline,
+    .btn-dark {
+      border-radius: 15px;
+      padding: 13px 15px;
+      font-weight: 950;
+      transition: 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      font-size: 15px;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(109,93,252,0.22);
+    }
+
+    .btn-primary:disabled,
+    .btn-dark:disabled,
+    .btn-light:disabled,
+    .btn-secondary:disabled,
+    .btn-outline:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-dark {
+      width: 100%;
+      color: white;
+      background: #111827;
+      margin-top: 10px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      color: white;
+      background: #111827;
+    }
+
+    .btn-light {
+      width: 100%;
+      color: #111827;
+      background: white;
+    }
+
+    .btn-outline {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      color: #111827;
+    }
+
+    .switch-text {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .switch-text button {
+      border: none;
+      background: transparent;
+      color: var(--primary);
+      font-weight: 950;
+    }
+
+    .dashboard-page {
+      display: none;
+      min-height: 100vh;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      background: #F7F7FC;
+    }
+
+    .dashboard-page.active {
+      display: grid;
+    }
+
+    .sidebar {
+      background:
+        linear-gradient(180deg, #111827 0%, #181A2F 100%);
+      color: white;
+      padding: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 30;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 26px;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      box-shadow: 0 0 28px rgba(139,92,246,0.35);
+    }
+
+    .sidebar-brand h3 {
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .sidebar-brand p {
+      color: rgba(255,255,255,0.58);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .nav-list {
+      display: grid;
+      gap: 9px;
+      margin-bottom: 26px;
+    }
+
+    .nav-item {
+      border: none;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255,255,255,0.74);
+      background: transparent;
+      padding: 13px 14px;
+      border-radius: 16px;
+      text-align: left;
+      font-weight: 850;
+      transition: 0.2s ease;
+    }
+
+    .nav-item .icon {
+      color: rgba(255,255,255,0.74);
+    }
+
+    .nav-item.active,
+    .nav-item:hover {
+      color: white;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .nav-item.active .icon,
+    .nav-item:hover .icon {
+      color: #A7F3D0;
+    }
+
+    .student-box {
+      padding: 17px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      margin-top: 18px;
+    }
+
+    .student-box small {
+      color: rgba(255,255,255,0.55);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .student-box strong {
+      display: block;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .student-box p {
+      color: rgba(255,255,255,0.66);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .logout-btn {
+      margin-top: 16px;
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 12px 14px;
+      border-radius: 15px;
+      font-weight: 900;
+    }
+
+    .main {
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .topbar h1 {
+      font-size: clamp(24px, 2.4vw, 34px);
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+
+    .topbar p {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-chip {
+      padding: 12px 15px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      color: #374151;
+      font-size: 13px;
+      font-weight: 850;
+      box-shadow: 0 10px 24px rgba(31,41,55,0.05);
+      white-space: nowrap;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    .hero-dashboard {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .welcome-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(24px, 3vw, 34px);
+      border-radius: var(--radius-xl);
+      color: white;
+      background:
+        linear-gradient(135deg, rgba(79,70,229,0.96), rgba(139,92,246,0.96)),
+        radial-gradient(circle at top right, rgba(255,255,255,0.28), transparent 36%);
+      min-height: 236px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .welcome-card .tag {
+      display: inline-flex;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 22px;
+    }
+
+    .welcome-card h2 {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(26px, 3vw, 36px);
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      max-width: 680px;
+    }
+
+    .welcome-card p {
+      position: relative;
+      z-index: 2;
+      color: rgba(255,255,255,0.86);
+      line-height: 1.65;
+      max-width: 720px;
+    }
+
+    .next-card,
+    .section-card,
+    .stat-card,
+    .feature-card {
+      background: white;
+      border: 1px solid rgba(229,231,235,0.9);
+      box-shadow: var(--card-shadow);
+    }
+
+    .next-card {
+      padding: 26px;
+      border-radius: var(--radius-xl);
+    }
+
+    .next-card h3 {
+      font-size: 19px;
+      margin-bottom: 10px;
+    }
+
+    .next-card p {
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .progress-ring {
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      background: conic-gradient(var(--primary) 0%, #E5E7EB 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .progress-ring-inner {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      color: var(--primary);
+      font-size: 22px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      padding: 20px;
+      border-radius: var(--radius-lg);
+    }
+
+    .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-weight: 950;
+      background: var(--soft-purple);
+      color: var(--primary);
+    }
+
+    .stat-card h3 {
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.04fr 0.96fr;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+
+    .section-card,
+    .feature-card {
+      border-radius: 28px;
+      padding: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .module-list,
+    .timeline,
+    .simple-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .module-item {
+      display: grid;
+      grid-template-columns: 52px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .module-number {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      background: var(--soft-purple);
+      font-weight: 950;
+    }
+
+    .module-item h4,
+    .feature-card h3 {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .module-item p,
+    .feature-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .status-badge {
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+    }
+
+    .status-done {
+      background: #ECFDF5;
+      color: #047857;
+    }
+
+    .status-progress {
+      background: #EEF2FF;
+      color: var(--primary);
+    }
+
+    .status-locked {
+      background: #F3F4F6;
+      color: #6B7280;
+    }
+
+    .module-item.locked-card {
+      opacity: 0.72;
+    }
+
+    .btn-locked {
+      cursor: not-allowed !important;
+      background: #F3F4F6 !important;
+      color: #9CA3AF !important;
+      border-color: #E5E7EB !important;
+      box-shadow: none !important;
+    }
+
+    .lock-symbol {
+      display: inline-block;
+      margin-right: 7px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 12px;
+    }
+
+    .timeline-dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      background: var(--soft-purple);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+      font-size: 12px;
+    }
+
+    .timeline-content {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .timeline-content h4 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .timeline-content p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .reflection-card {
+      background: #111827;
+      color: white;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    .reflection-card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .reflection-card p {
+      color: rgba(255,255,255,0.72);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .reflection-input,
+    .dark-input {
+      width: 100%;
+      min-height: 106px;
+      resize: vertical;
+      padding: 15px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      outline: none;
+      color: white;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 14px;
+    }
+
+    .light-textarea {
+      width: 100%;
+      min-height: 110px;
+      resize: vertical;
+      padding: 15px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      outline: none;
+      color: var(--text);
+      background: #fff;
+      margin: 12px 0;
+    }
+
+    .mood-select,
+    .light-select,
+    .light-input {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .reflection-card .mood-select {
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .reflection-card .mood-select option {
+      color: #111827;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      border: none;
+      padding: 11px 13px;
+      border-radius: 14px;
+      background: white;
+      box-shadow: var(--card-shadow);
+      font-weight: 950;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,0.44);
+      z-index: 25;
+    }
+
+    .mobile-overlay.active {
+      display: block;
+    }
+
+    .lesson-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      background: rgba(17, 24, 39, 0.62);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lesson-modal.active {
+      display: flex;
+    }
+
+    .lesson-card {
+      width: min(980px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 32px;
+      padding: 0;
+      box-shadow: var(--shadow);
+    }
+
+    .premium-module-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      color: white;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.25), transparent 34%),
+        linear-gradient(135deg, #4F46E5 0%, #7C3AED 58%, #111827 100%);
+    }
+
+    .premium-module-hero::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -70px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .premium-hero-top {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .premium-module-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.20);
+      font-size: 12px;
+      font-weight: 950;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .premium-close-btn {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .premium-module-title {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+      max-width: 760px;
+    }
+
+    .premium-module-desc {
+      position: relative;
+      z-index: 1;
+      color: rgba(255,255,255,0.82) !important;
+      line-height: 1.7 !important;
+      max-width: 760px;
+      margin-bottom: 22px !important;
+    }
+
+    .premium-progress-wrap {
+      position: relative;
+      z-index: 1;
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .premium-progress-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+      color: rgba(255,255,255,0.90);
+      font-size: 13px;
+      font-weight: 850;
+    }
+
+    .premium-progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.20);
+    }
+
+    .premium-progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #A7F3D0, #FFFFFF);
+      width: 0%;
+      transition: width 0.25s ease;
+    }
+
+    .premium-module-body {
+      padding: 26px;
+      background:
+        radial-gradient(circle at top left, rgba(237,233,254,0.75), transparent 28%),
+        #FFFFFF;
+    }
+
+    .premium-section-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .premium-section-label h4 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .premium-section-label span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .premium-lesson-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .premium-lesson-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 16px;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid #E5E7EB;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 14px 32px rgba(31,41,55,0.06);
+    }
+
+    .premium-lesson-card.done {
+      border-color: #A7F3D0;
+      background: linear-gradient(135deg, #FFFFFF, #ECFDF5);
+    }
+
+    .premium-lesson-number {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-weight: 950;
+      color: var(--primary);
+      background: var(--soft-purple);
+    }
+
+    .premium-lesson-card.done .premium-lesson-number {
+      color: #047857;
+      background: #D1FAE5;
+    }
+
+    .premium-lesson-main strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #111827;
+    }
+
+    .premium-lesson-main p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+      margin: 10px 0 0;
+    }
+
+    .premium-lesson-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .premium-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #F3F4F6;
+      color: #4B5563;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .premium-meta-pill.done {
+      background: #ECFDF5;
+      color: #047857;
+    }
+
+    .premium-meta-pill.progress {
+      background: #EEF2FF;
+      color: var(--primary);
+    }
+
+    .premium-video-frame {
+      margin: 14px 0 6px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #0F172A;
+      border: 1px solid rgba(15,23,42,0.12);
+      box-shadow: 0 18px 38px rgba(15,23,42,0.18);
+    }
+
+    .premium-video-ratio {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      background: #0F172A;
+    }
+
+    .premium-video-ratio iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .premium-modal-actions {
+      position: sticky;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 12px;
+      padding: 18px 26px 24px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid #E5E7EB;
+    }
+
+    .premium-modal-actions .btn-outline,
+    .premium-modal-actions .btn-primary {
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .premium-module-hero {
+        padding: 22px;
+      }
+
+      .premium-module-body {
+        padding: 18px;
+      }
+
+      .premium-hero-top,
+      .premium-section-label,
+      .premium-progress-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .premium-lesson-card {
+        grid-template-columns: 1fr;
+      }
+
+      .premium-modal-actions {
+        grid-template-columns: 1fr;
+        padding: 16px 18px 20px;
+      }
+    }
+
+    .lesson-card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .lesson-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .lesson-list {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .lesson-item,
+    .list-item {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      padding: 15px;
+      border-radius: 18px;
+    }
+
+    .lesson-item strong,
+    .list-item strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .lesson-item span,
+    .list-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .lesson-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .timer-box {
+      display: grid;
+      place-items: center;
+      min-height: 160px;
+      border-radius: var(--radius-lg);
+      background: var(--soft-purple);
+      margin: 14px 0;
+    }
+
+    .timer-box strong {
+      font-size: 46px;
+      color: var(--primary);
+    }
+
+    .mini-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .video-frame-wrap {
+      margin: 12px 0 14px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0F172A;
+      aspect-ratio: 16 / 9;
+      border: 1px solid rgba(15,23,42,0.12);
+    }
+
+    .video-frame-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+.module-video-frame {
+      margin: 14px 0;
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(17,24,39,0.96), rgba(79,70,229,0.92)),
+        radial-gradient(circle at top right, rgba(255,255,255,0.16), transparent 34%);
+      border: 1px solid rgba(99,102,241,0.18);
+      box-shadow: 0 18px 42px rgba(17,24,39,0.18);
+    }
+
+    .module-video-ratio {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #0F172A;
+      display: grid;
+      place-items: center;
+    }
+
+    .module-video-ratio iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .module-video-placeholder {
+      padding: 28px;
+      color: white;
+      text-align: center;
+    }
+
+    .module-video-placeholder .play-circle {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      margin: 0 auto 14px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.20);
+      display: grid;
+      place-items: center;
+      color: white;
+    }
+
+    .module-video-placeholder strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .module-video-placeholder span {
+      color: rgba(255,255,255,0.76);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .module-video-caption {
+      padding: 14px 16px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .module-video-caption strong {
+      font-size: 14px;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .module-video-caption span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .video-source-pill {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: var(--soft-purple);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1180px) {
+      .hero-dashboard,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .auth-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        display: none;
+      }
+
+      .auth-page {
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .auth-shell {
+        min-height: auto;
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+      }
+
+      .auth-panel {
+        padding: 34px 24px;
+      }
+
+      .dashboard-page.active {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: min(86vw, var(--sidebar-width));
+        height: 100vh;
+        transform: translateX(-105%);
+        transition: transform 0.24s ease;
+      }
+
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+
+      .main {
+        padding: 22px;
+      }
+
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .auth-page {
+        padding: 14px;
+      }
+
+      .auth-heading h2 {
+        font-size: 26px;
+      }
+
+      .input-row,
+      .stats-grid,
+      .mini-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .main {
+        padding: 16px;
+      }
+
+      .topbar {
+        flex-direction: column;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .module-item {
+        grid-template-columns: 48px 1fr;
+      }
+
+      .module-item .status-badge {
+        grid-column: 2 / 3;
+      }
+
+      .lesson-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .welcome-card {
+        min-height: auto;
+      }
+
+      .lesson-card {
+        padding: 20px;
+        border-radius: 22px;
+      }
+    }
+
+    /* === PREMIUM GLOBAL UI UPGRADE === */
+    .main {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(109,93,252,0.10), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(34,197,94,0.08), transparent 28%),
+        var(--bg);
+    }
+
+    .topbar {
+      border-radius: 28px;
+      padding: 22px 24px;
+      margin-bottom: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(229,231,235,0.82);
+      box-shadow: 0 18px 48px rgba(31,41,55,0.07);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-item {
+      position: relative;
+      transition: transform .18s ease, background .18s ease, color .18s ease;
+    }
+
+    .nav-item:hover {
+      transform: translateX(4px);
+    }
+
+    .nav-item.active::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #A7F3D0;
+      box-shadow: 0 0 0 5px rgba(167,243,208,0.15);
+    }
+
+    .section-card,
+    .feature-card,
+    .reflection-card,
+    .stat-card,
+    .welcome-card,
+    .next-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(229,231,235,0.78);
+      box-shadow: 0 20px 48px rgba(31,41,55,0.08);
+    }
+
+    .section-card::before,
+    .feature-card::before,
+    .reflection-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(109,93,252,0.055), transparent 34%);
+    }
+
+    .hero-dashboard {
+      align-items: stretch;
+    }
+
+    .welcome-card {
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.24), transparent 32%),
+        linear-gradient(135deg, #4F46E5 0%, #7C3AED 54%, #111827 100%) !important;
+      color: white;
+    }
+
+    .welcome-card .tag {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.20);
+      color: rgba(255,255,255,0.92);
+    }
+
+    .welcome-card p,
+    .welcome-card h2 {
+      color: white;
+    }
+
+    .dashboard-action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .dashboard-mini-card {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .dashboard-mini-card b {
+      display: block;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .dashboard-mini-card span {
+      color: rgba(255,255,255,0.78);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .dashboard-mini-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.16);
+      font-weight: 950;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .profile-identity-card {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.24), transparent 36%),
+        linear-gradient(135deg, #6D5DFC, #111827);
+      color: white;
+      margin-bottom: 18px;
+    }
+
+    .profile-avatar {
+      width: 78px;
+      height: 78px;
+      border-radius: 26px;
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+      font-weight: 950;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+
+    .profile-identity-card h3 {
+      margin-bottom: 6px;
+      color: white;
+    }
+
+    .profile-identity-card p {
+      color: rgba(255,255,255,0.78);
+      line-height: 1.5;
+      font-size: 13px;
+    }
+
+    .profile-readonly {
+      padding: 13px 15px;
+      border-radius: 15px;
+      background: #F9FAFB;
+      border: 1px dashed #D1D5DB;
+      color: #4B5563;
+      margin-bottom: 14px;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .premium-progress-list .list-item {
+      border-radius: 18px;
+      border: 1px solid rgba(229,231,235,0.84);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.96), rgba(250,250,255,0.92));
+      box-shadow: 0 12px 28px rgba(31,41,55,0.05);
+    }
+
+    @media (max-width: 900px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-action-row {
+        flex-direction: column;
+      }
+    }
+
+
+    .topbar-actions {
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .topbar-profile-btn {
+      min-height: 52px;
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      padding: 7px 12px 7px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(229,231,235,0.92);
+      background:
+        radial-gradient(circle at top right, rgba(109,93,252,0.12), transparent 38%),
+        rgba(255,255,255,0.92);
+      color: #111827;
+      box-shadow: 0 14px 34px rgba(31,41,55,0.08);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      cursor: pointer;
+    }
+
+    .topbar-profile-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(109,93,252,0.35);
+      box-shadow: 0 18px 42px rgba(31,41,55,0.12);
+    }
+
+    .topbar-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 950;
+      background: linear-gradient(135deg, #6D5DFC, #8B5CF6);
+      box-shadow: 0 10px 24px rgba(109,93,252,0.30);
+      flex: 0 0 auto;
+    }
+
+    .topbar-profile-text {
+      display: grid;
+      text-align: left;
+      line-height: 1.2;
+      max-width: 150px;
+    }
+
+    .topbar-profile-text strong {
+      font-size: 13px;
+      font-weight: 950;
+      color: #111827;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .topbar-profile-text small {
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #6B7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media (max-width: 700px) {
+      .topbar-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .topbar-profile-btn {
+        width: 100%;
+        justify-content: flex-start;
+        border-radius: 18px;
+      }
+
+      .topbar-profile-text {
+        max-width: none;
+      }
+    }
+
+
+    /* === DASHBOARD CTA POLISH === */
+    .dashboard-action-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .premium-continue-btn {
+      position: relative;
+      width: 100%;
+      min-height: 66px;
+      border: 0;
+      border-radius: 22px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: #111827;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,247,255,0.94));
+      box-shadow:
+        0 18px 42px rgba(15,23,42,0.16),
+        inset 0 1px 0 rgba(255,255,255,0.86);
+      border: 1px solid rgba(255,255,255,0.82);
+      overflow: hidden;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .premium-continue-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(109,93,252,0.16), transparent 28%),
+        linear-gradient(90deg, rgba(167,243,208,0.18), transparent 58%);
+      opacity: .95;
+    }
+
+    .premium-continue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 24px 52px rgba(15,23,42,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.92);
+      background:
+        linear-gradient(135deg, #FFFFFF, #F8FAFF);
+    }
+
+    .premium-continue-btn:active {
+      transform: translateY(0);
+    }
+
+    .premium-continue-btn > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-continue-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 20px;
+      font-weight: 950;
+      background: linear-gradient(135deg, #6D5DFC, #8B5CF6);
+      box-shadow: 0 14px 30px rgba(109,93,252,0.34);
+      flex: 0 0 auto;
+    }
+
+    .premium-continue-btn span:last-child {
+      display: grid;
+      gap: 3px;
+      text-align: left;
+    }
+
+    .premium-continue-btn strong {
+      font-size: 16px;
+      font-weight: 950;
+      letter-spacing: -0.2px;
+      color: #111827;
+    }
+
+    .premium-continue-btn small {
+      color: #6B7280;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .dashboard-mini-card {
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+    }
+
+    .dashboard-mini-icon {
+      background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.10));
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    @media (max-width: 640px) {
+      .premium-continue-btn {
+        justify-content: flex-start;
+        min-height: 72px;
+      }
+    }
+
+
+    .premium-modal-actions .btn-primary,
+    .premium-modal-actions .btn-outline {
+      min-height: 58px;
+      font-size: 16px;
+      border-radius: 18px;
+      letter-spacing: -0.2px;
+    }
+
+    .premium-modal-actions .btn-primary {
+      background: linear-gradient(135deg, #6D5DFC, #8B5CF6);
+      box-shadow: 0 16px 34px rgba(109,93,252,0.26);
+    }
+
+    .premium-modal-actions .btn-primary:disabled {
+      opacity: .62;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+
+    .welcome-card .dashboard-action-row {
+      margin-top: 22px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <section class="auth-page" id="authPage">
+    <main class="auth-shell">
+      <section class="hero-panel">
+        <div class="brand-pill">
+          <span class="brand-dot"></span>
+          LMS Intervensi Self-Compassion
+        </div>
+
+        <h1 class="hero-title">Ruang belajar yang lebih tenang untuk menghadapi ujian masuk PTN.</h1>
+
+        <p class="hero-desc">
+          Platform ini membantu siswa kelas XI mengikuti modul self-compassion,
+          guided exercise, progress tracking, reminder, dan jurnal refleksi agar
+          intervensi berjalan lebih terarah.
+        </p>
+
+        <div class="hero-grid">
+          <div class="hero-mini-card">
+            <strong>Modul</strong>
+            <span>Pembelajaran interaktif</span>
+          </div>
+          <div class="hero-mini-card">
+            <strong>Exercise</strong>
+            <span>Latihan terarah</span>
+          </div>
+          <div class="hero-mini-card">
+            <strong>Progress</strong>
+            <span>Tracking perkembangan</span>
+          </div>
+          <div class="hero-mini-card">
+            <strong>Reminder</strong>
+            <span>Notifikasi belajar</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="auth-panel">
+        <div class="auth-card">
+          <div class="auth-heading">
+            <h2>Selamat datang 👋</h2>
+            <p>
+              Silakan masuk jika sudah memiliki akun. Jika belum, daftar dan verifikasi email terlebih dahulu.
+            </p>
+          </div>
+
+          <div class="tabs" id="authTabs">
+            <button class="tab-btn active" id="loginTab" onclick="switchForm('login')">Masuk</button>
+            <button class="tab-btn" id="registerTab" onclick="switchForm('register')">Daftar</button>
+          </div>
+
+          <div id="alertBox" class="alert"></div>
+
+          <form id="loginForm" class="form-box active" onsubmit="handleLogin(event)">
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" id="loginEmail" class="input-control" placeholder="contoh: siswa@email.com" required>
+            </div>
+
+            <div class="input-group">
+              <label>Password</label>
+              <div class="password-wrap">
+                <input type="password" id="loginPassword" class="input-control" placeholder="Masukkan password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)" aria-label="Lihat password"></button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="loginBtn">Masuk ke Dashboard</button>
+
+            <div class="switch-text">
+              Belum memiliki akun?
+              <button type="button" onclick="switchForm('register')">Daftar sekarang</button>
+            </div>
+          </form>
+
+          <form id="registerForm" class="form-box" onsubmit="handleRegister(event)">
+            <div class="input-group">
+              <label>Nama Lengkap</label>
+              <input type="text" id="registerNama" class="input-control" placeholder="Masukkan nama lengkap" required>
+            </div>
+
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" id="registerEmail" class="input-control" placeholder="contoh: siswa@email.com" required>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label>Kelas</label>
+                <select id="registerKelas" class="input-control" required>
+                  <option value="XI">XI</option>
+                </select>
+              </div>
+
+              <div class="input-group">
+                <label>Asal Sekolah</label>
+                <input type="text" id="registerSekolah" class="input-control" placeholder="Nama sekolah">
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Password</label>
+              <div class="password-wrap">
+                <input type="password" id="registerPassword" class="input-control" placeholder="Minimal 6 karakter" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('registerPassword', this)" aria-label="Lihat password"></button>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Konfirmasi Password</label>
+              <div class="password-wrap">
+                <input type="password" id="registerPasswordConfirm" class="input-control" placeholder="Ulangi password" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('registerPasswordConfirm', this)" aria-label="Lihat password"></button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="registerBtn">Daftar & Kirim OTP</button>
+
+            <div class="switch-text">
+              Sudah memiliki akun?
+              <button type="button" onclick="switchForm('login')">Masuk di sini</button>
+            </div>
+          </form>
+
+          <form id="verifyForm" class="form-box" onsubmit="handleVerifyOtp(event)">
+            <div class="note-box">
+              Kode OTP sudah dikirim ke email kamu. Silakan cek kotak masuk atau folder spam.
+            </div>
+
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" id="verifyEmail" class="input-control" readonly>
+            </div>
+
+            <div class="input-group">
+              <label>Kode OTP</label>
+              <input type="text" id="verifyOtp" class="input-control" placeholder="Masukkan 6 digit OTP" maxlength="6" required>
+            </div>
+
+            <button type="submit" class="btn-primary" id="verifyBtn">Verifikasi Email</button>
+            <button type="button" class="btn-dark" id="resendBtn" onclick="handleResendOtp()">Kirim Ulang OTP</button>
+
+            <div class="switch-text">
+              <button type="button" onclick="switchForm('login')">Kembali ke Login</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-profile">
+        <div class="profile-grid">
+          <div class="section-card">
+            <div class="profile-identity-card">
+              <div class="profile-avatar" id="profileAvatar">SC</div>
+              <div>
+                <h3 id="profileDisplayName">Profil Siswa</h3>
+                <p id="profileDisplayMeta">Kelola identitas akun dan data responden.</p>
+              </div>
+            </div>
+
+            <div class="section-head">
+              <div>
+                <h3>Informasi Profil</h3>
+                <span>Data ini digunakan untuk identitas akun siswa.</span>
+              </div>
+            </div>
+
+            <label>Nama Lengkap</label>
+            <input class="light-input" id="profileNama" placeholder="Nama lengkap siswa">
+
+            <label>Email</label>
+            <div class="profile-readonly" id="profileEmail">-</div>
+
+            <label>Kode Responden</label>
+            <div class="profile-readonly" id="profileKode">-</div>
+
+            <label>Kelas</label>
+            <select class="light-select" id="profileKelas">
+              <option value="XI">XI</option>
+              <option value="XII">XII</option>
+            </select>
+
+            <label>Sekolah</label>
+            <input class="light-input" id="profileSekolah" placeholder="Nama sekolah">
+
+            <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Simpan Profil</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Ganti Password</h3>
+                <span>Gunakan password yang aman dan mudah kamu ingat.</span>
+              </div>
+            </div>
+
+            <label>Password Lama</label>
+            <input class="light-input" id="oldPassword" type="password" placeholder="Masukkan password lama">
+
+            <label>Password Baru</label>
+            <input class="light-input" id="newPassword" type="password" placeholder="Minimal 6 karakter">
+
+            <label>Konfirmasi Password Baru</label>
+            <input class="light-input" id="confirmPassword" type="password" placeholder="Ulangi password baru">
+
+            <button class="btn-primary" id="changePasswordBtn" onclick="changePassword()">Ganti Password</button>
+
+            <div class="list-item" style="margin-top:16px;">
+              <strong>Tips keamanan akun</strong>
+              <span>Jangan bagikan password kepada teman. Gunakan kombinasi huruf dan angka agar akun tetap aman.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </section>
+
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
+
+  <section class="dashboard-page" id="dashboardPage">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">SC</div>
+        <div>
+          <h3>Self-Compassion LMS</h3>
+          <p>Dashboard Siswa</p>
+        </div>
+      </div>
+
+      <div class="nav-list">
+        <button class="nav-item active" data-page="dashboard" onclick="openPage('dashboard', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"></path><path d="M5 10.5V20h14v-9.5"></path><path d="M9 20v-6h6v6"></path></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" data-page="modules" onclick="openPage('modules', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M4 5.5v16"></path><path d="M8 7h8"></path><path d="M8 11h6"></path></svg>
+          Modul Pembelajaran
+        </button>
+        <button class="nav-item" data-page="exercise" onclick="openPage('exercise', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+          Guide Exercise
+        </button>
+        <button class="nav-item" data-page="progress" onclick="openPage('progress', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path><path d="M16 16v-3"></path></svg>
+          Progress Tracking
+        </button>
+        <button class="nav-item" data-page="reminder" onclick="openPage('reminder', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+          Reminder
+        </button>
+        <button class="nav-item" data-page="journal" onclick="openPage('journal', this)">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg>
+          Jurnal Refleksi
+        </button>
+      </div>
+
+      <div class="student-box">
+        <small>Kode Responden</small>
+        <strong id="sidebarKode">RSP-000000</strong>
+        <p id="sidebarEmail">siswa@email.com</p>
+        <button class="logout-btn" onclick="logoutUser()">Keluar</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <button class="mobile-menu-btn" onclick="openMobileSidebar()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h16"></path><path d="M4 17h16"></path></svg>
+            Menu
+          </button>
+          <h1 id="dashboardTitle">Dashboard Intervensi</h1>
+          <p id="pageSubtitle">Pantau aktivitas intervensi self-compassion dan lanjutkan modul yang sedang berjalan.</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="mini-chip" id="topbarClass">Kelas XI</div>
+          <div class="mini-chip">Status: Aktif</div>
+          <button class="topbar-profile-btn" id="topbarProfileButton" type="button" onclick="openPageByName('profile')" title="Buka Profil">
+            <span class="topbar-avatar" id="topbarAvatar">SC</span>
+            <span class="topbar-profile-text">
+              <strong id="topbarProfileName">Profil</strong>
+              <small id="topbarProfileCode">Kode Responden</small>
+            </span>
+          </button>
+        </div>
+      </header>
+
+      <div id="appAlertBox" class="alert"></div>
+
+      <section class="page-section active" id="page-dashboard">
+        <section class="hero-dashboard">
+          <div class="welcome-card">
+            <div class="tag">Program Persiapan Ujian Masuk PTN</div>
+            <h2 id="welcomeName">Selamat datang di ruang belajar yang lebih tenang.</h2>
+            <p id="dashboardPersonalMessage">
+              Progress personalmu akan tampil setelah data siswa terbaca.
+            </p>
+            <div class="dashboard-action-row">
+              <button class="premium-continue-btn" type="button" onclick="openNextRunningModule()">
+                <span class="premium-continue-icon">→</span>
+                <span>
+                  <strong>Lanjutkan Aktivitas</strong>
+                  <small>Buka aktivitas self-compassion berikutnya</small>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="next-card">
+            <div class="progress-ring" id="progressRing">
+              <div class="progress-ring-inner" id="overallProgressText">0%</div>
+            </div>
+            <h3>Progres Intervensi</h3>
+            <p id="progressSummary">Progress akan dihitung dari modul, jurnal, dan aktivitas yang sudah diselesaikan.</p>
+            <button class="btn-secondary" onclick="openPageByName('modules')">Lanjutkan Modul</button>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"></path><path d="M8 7h8"></path></svg>
+            </div>
+            <h3 id="statTotalModules">0</h3>
+            <p>Total modul self-compassion yang tersedia.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg>
+            </div>
+            <h3 id="statCompletedLessons">0/0</h3>
+            <p>Aktivitas pembelajaran yang sudah diselesaikan.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M8 16v-5"></path><path d="M12 16V8"></path></svg>
+            </div>
+            <h3 id="statCompletedModules">0/0</h3>
+            <p>Status penyelesaian modul intervensi.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M5 4h14v16H5z"></path><path d="M8 8h8"></path><path d="M8 12h5"></path></svg>
+            </div>
+            <h3 id="statTotalJournals">0</h3>
+            <p>Jurnal refleksi yang sudah tersimpan.</p>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Modul Berjalan</h3>
+                <span>Rekomendasi modul sesuai progresmu</span>
+              </div>
+            </div>
+            <div class="module-list" id="dashboardModuleList">
+              <p class="empty-state">Memuat modul...</p>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Reminder Terdekat</h3>
+                <span>Pengingat aktif siswa</span>
+              </div>
+            </div>
+            <div class="timeline" id="dashboardReminderList">
+              <p class="empty-state">Memuat reminder...</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="page-section" id="page-modules">
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>Modul Pembelajaran</h3>
+              <span>Materi bisa berupa artikel, latihan refleksi, audio, atau video pembelajaran</span>
+            </div>
+            <button class="btn-outline" style="max-width:180px;" onclick="loadStudentDashboardData()">Refresh</button>
+          </div>
+          <div class="module-list" id="moduleList">
+            <p class="empty-state">Memuat modul...</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-exercise">
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Self-Reflection Journal</h3>
+            <p>Latihan refleksi diri untuk membantu siswa mengenali emosi, tekanan akademik, dan kalimat dukungan untuk diri sendiri.</p>
+            <select class="light-select" id="exerciseMood">
+              <option value="">Pilih suasana hati</option>
+              <option value="Tenang">Tenang</option>
+              <option value="Cemas">Cemas</option>
+              <option value="Lelah">Lelah</option>
+              <option value="Takut gagal">Takut gagal</option>
+              <option value="Semangat">Semangat</option>
+            </select>
+            <textarea class="light-textarea" id="exerciseReflection" placeholder="Apa yang kamu rasakan hari ini? Apa yang ingin kamu katakan pada dirimu sendiri?"></textarea>
+            <button class="btn-primary" id="saveExerciseBtn" onclick="saveExerciseJournal()">Simpan Guide Exercise</button>
+          </div>
+
+          <div class="feature-card">
+            <h3>Latihan Mindfulness 3 Menit</h3>
+            <p>Latihan napas pendek untuk mengambil jeda sebelum belajar atau saat merasa cemas menghadapi ujian.</p>
+            <div class="timer-box">
+              <strong id="timerText">03:00</strong>
+            </div>
+            <div class="mini-actions">
+              <button class="btn-primary" onclick="startMindfulnessTimer()">Mulai</button>
+              <button class="btn-outline" onclick="resetMindfulnessTimer()">Reset</button>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <h3>Self-Compassion Statement Generator</h3>
+            <p>Sistem membantu membuat kalimat dukungan diri yang hangat, realistis, dan tidak menghakimi.</p>
+            <div class="list-item" style="margin:12px 0;">
+              <strong id="statementResult">Tekan tombol generate untuk mendapatkan kalimat dukungan.</strong>
+              <span>Contoh: “Tidak apa-apa merasa gagal, kamu sedang belajar.”</span>
+            </div>
+            <button class="btn-primary" onclick="generateCompassionStatement()">Generate Kalimat</button>
+          </div>
+
+          <div class="feature-card">
+            <h3>Latihan Ubah Kritik Diri</h3>
+            <p>Tulis satu kritik diri yang sering muncul, lalu ubah menjadi kalimat dukungan yang lebih sehat.</p>
+            <textarea class="light-textarea" id="selfCriticInput" placeholder="Contoh kritik diri: Aku pasti gagal karena belum cukup pintar."></textarea>
+            <button class="btn-primary" onclick="transformSelfCritic()">Ubah Menjadi Dukungan</button>
+            <div class="list-item" style="margin-top:12px;">
+              <strong id="selfCriticResult">Hasil dukungan akan muncul di sini.</strong>
+              <span>Latihan ini membantu menguatkan self-kindness.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-progress">
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">%</div>
+            <h3 id="progressPageOverall">0%</h3>
+            <p>Persentase keseluruhan intervensi.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">M</div>
+            <h3 id="progressPageModules">0/0</h3>
+            <p>Modul selesai dari total modul.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">✓</div>
+            <h3 id="progressPageLessons">0/0</h3>
+            <p>Aktivitas selesai dari total aktivitas.</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">J</div>
+            <h3 id="progressPageJournals">0</h3>
+            <p>Total jurnal dan guide exercise.</p>
+          </div>
+        </section>
+
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>Progress Tracking per Modul</h3>
+              <span>Berdasarkan aktivitas yang sudah kamu selesaikan</span>
+            </div>
+          </div>
+          <div class="simple-list premium-progress-list" id="progressModuleList">
+            <p class="empty-state">Memuat progress...</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-reminder">
+        <div class="content-grid">
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Tambah Reminder</h3>
+                <span>Pengingat personal untuk mendukung rutinitas</span>
+              </div>
+            </div>
+            <input class="light-input" id="reminderTitle" placeholder="Judul reminder, contoh: Refleksi Hari Ini">
+            <textarea class="light-textarea" id="reminderMessage" placeholder="Pesan reminder, contoh: Jangan lupa tulis refleksi singkat hari ini."></textarea>
+            <select class="light-select" id="reminderType">
+              <option value="DAILY">Harian</option>
+              <option value="MODULE">Modul</option>
+              <option value="REFLECTION">Refleksi</option>
+              <option value="MINDFULNESS">Mindfulness</option>
+            </select>
+            <button class="btn-primary" id="saveReminderBtn" onclick="saveReminder()">Simpan Reminder</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Reminder Aktif</h3>
+                <span>Untuk siswa ini</span>
+              </div>
+            </div>
+            <div class="timeline" id="reminderList">
+              <p class="empty-state">Belum ada reminder aktif.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-journal">
+        <section class="reflection-card">
+          <h3>Jurnal Refleksi</h3>
+          <p>
+            Tulis refleksi harianmu dengan bahasa yang jujur dan aman. Jawaban akan tersimpan secara personal berdasarkan kode responden dan waktu pengisian.
+          </p>
+          <select class="mood-select" id="journalMood">
+            <option value="">Pilih suasana hati hari ini</option>
+            <option value="Tenang">Tenang</option>
+            <option value="Cemas">Cemas</option>
+            <option value="Lelah">Lelah</option>
+            <option value="Semangat">Semangat</option>
+            <option value="Takut gagal">Takut gagal</option>
+            <option value="Bingung">Bingung</option>
+          </select>
+          <textarea class="reflection-input" id="journalInput" placeholder="Contoh: Hari ini aku merasa..."></textarea>
+          <button class="btn-light" id="saveJournalBtn" onclick="saveReflectionJournal()">Simpan Refleksi</button>
+        </section>
+
+        <div class="section-card">
+          <div class="section-head">
+            <div>
+              <h3>Riwayat Jurnal Terbaru</h3>
+              <span>5 data terakhir</span>
+            </div>
+          </div>
+          <div class="simple-list" id="recentJournalList">
+            <p class="empty-state">Belum ada jurnal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section" id="page-profile">
+        <div class="profile-grid">
+          <div class="section-card">
+            <div class="profile-identity-card">
+              <div class="profile-avatar" id="profileAvatar">SC</div>
+              <div>
+                <h3 id="profileDisplayName">Profil Siswa</h3>
+                <p id="profileDisplayMeta">Kelola identitas akun dan data responden.</p>
+              </div>
+            </div>
+
+            <div class="section-head">
+              <div>
+                <h3>Informasi Profil</h3>
+                <span>Data ini digunakan untuk identitas akun siswa.</span>
+              </div>
+            </div>
+
+            <label>Nama Lengkap</label>
+            <input class="light-input" id="profileNama" placeholder="Nama lengkap siswa">
+
+            <label>Email</label>
+            <div class="profile-readonly" id="profileEmail">-</div>
+
+            <label>Kode Responden</label>
+            <div class="profile-readonly" id="profileKode">-</div>
+
+            <label>Kelas</label>
+            <select class="light-select" id="profileKelas">
+              <option value="XI">XI</option>
+              <option value="XII">XII</option>
+            </select>
+
+            <label>Sekolah</label>
+            <input class="light-input" id="profileSekolah" placeholder="Nama sekolah">
+
+            <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()">Simpan Profil</button>
+          </div>
+
+          <div class="section-card">
+            <div class="section-head">
+              <div>
+                <h3>Ganti Password</h3>
+                <span>Gunakan password yang aman dan mudah kamu ingat.</span>
+              </div>
+            </div>
+
+            <label>Password Lama</label>
+            <input class="light-input" id="oldPassword" type="password" placeholder="Masukkan password lama">
+
+            <label>Password Baru</label>
+            <input class="light-input" id="newPassword" type="password" placeholder="Minimal 6 karakter">
+
+            <label>Konfirmasi Password Baru</label>
+            <input class="light-input" id="confirmPassword" type="password" placeholder="Ulangi password baru">
+
+            <button class="btn-primary" id="changePasswordBtn" onclick="changePassword()">Ganti Password</button>
+
+            <div class="list-item" style="margin-top:16px;">
+              <strong>Tips keamanan akun</strong>
+              <span>Jangan bagikan password kepada teman. Gunakan kombinasi huruf dan angka agar akun tetap aman.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </section>
+
+  <div class="lesson-modal" id="lessonModal">
+    <div class="lesson-card">
+      <div class="premium-module-hero">
+        <div class="premium-hero-top">
+          <div class="premium-module-pill" id="lessonModalPill">Modul Pembelajaran</div>
+          <button class="premium-close-btn" type="button" onclick="closeLessonModal()" aria-label="Tutup">×</button>
+        </div>
+        <h3 class="premium-module-title" id="lessonModalTitle">Detail Modul</h3>
+        <p class="premium-module-desc" id="lessonModalDesc"></p>
+        <div class="premium-progress-wrap">
+          <div class="premium-progress-info">
+            <span id="lessonModalProgressText">Progress: 0%</span>
+            <span id="lessonModalActivityText">0/0 aktivitas selesai</span>
+          </div>
+          <div class="premium-progress-bar">
+            <div class="premium-progress-fill" id="lessonModalProgressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="premium-module-body">
+        <div class="premium-section-label">
+          <h4>Daftar Aktivitas Modul</h4>
+          <span>Selesaikan aktivitas secara berurutan</span>
+        </div>
+        <div class="premium-lesson-list" id="lessonModalList"></div>
+      </div>
+
+      <div class="premium-modal-actions">
+        <button class="btn-outline" onclick="closeLessonModal()">Tutup</button>
+        <button class="btn-primary" id="completeFirstLessonBtn" onclick="completeFirstAvailableLesson()">Selesai</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    /**
+     * Vercel bridge untuk menggantikan google.script.run.
+     * Jangan hapus. Ini membuat frontend Vercel tetap bisa memakai kode UI Apps Script lama.
+     */
+    (function() {
+      const API_ENDPOINT = '/api/apps-script';
+
+      function createRunner(successHandler, failureHandler) {
+        return new Proxy({}, {
+          get(_target, prop) {
+            if (prop === 'withSuccessHandler') {
+              return function(handler) {
+                return createRunner(handler, failureHandler);
+              };
+            }
+
+            if (prop === 'withFailureHandler') {
+              return function(handler) {
+                return createRunner(successHandler, handler);
+              };
+            }
+
+            return async function(...args) {
+              try {
+                const response = await fetch(API_ENDPOINT, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    action: String(prop),
+                    args: args
+                  })
+                });
+
+                const text = await response.text();
+                let result;
+
+                if (!text) {
+                  throw new Error(
+                    'Response API kosong. Buka /api/apps-script untuk mengecek proxy Vercel.'
+                  );
+                }
+
+                try {
+                  result = JSON.parse(text);
+                } catch (parseError) {
+                  throw new Error(
+                    'Response API bukan JSON valid. Status HTTP: ' +
+                    response.status +
+                    '. Preview: ' +
+                    text.slice(0, 220)
+                  );
+                }
+
+                if (!response.ok) {
+                  throw new Error(result.message || 'Request API gagal.');
+                }
+
+                if (typeof successHandler === 'function') {
+                  successHandler(result);
+                }
+
+                return result;
+
+              } catch (error) {
+                if (typeof failureHandler === 'function') {
+                  failureHandler({
+                    message: error.message || String(error)
+                  });
+                } else {
+                  console.error(error);
+                }
+
+                return null;
+              }
+            };
+          }
+        });
+      }
+
+      window.google = window.google || {};
+      window.google.script = window.google.script || {};
+      window.google.script.run = createRunner();
+    })();
+  </script>
+
+  <script>
+    const ICON_EYE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+    const ICON_EYE_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3l18 18"></path><path d="M10.6 10.6A2 2 0 0 0 12 14a2 2 0 0 0 1.4-.6"></path><path d="M9.9 4.3A10.7 10.7 0 0 1 12 4c6.5 0 10 8 10 8a18 18 0 0 1-3.2 4.4"></path><path d="M6.6 6.6C3.6 8.6 2 12 2 12s3.5 8 10 8a10.6 10.6 0 0 0 4.2-.9"></path></svg>';
+
+    let currentUser = null;
+    let dashboardCache = null;
+    let selectedModule = null;
+    let personalDashboardLoaded = false;
+    let progressOnlyLoaded = false;
+    let timerInterval = null;
+    let timerRemaining = 180;
+
+    const pageTitles = {
+      dashboard: 'Dashboard Intervensi',
+      modules: 'Modul Pembelajaran',
+      exercise: 'Guide Exercise',
+      progress: 'Progress Tracking',
+      reminder: 'Reminder',
+      journal: 'Jurnal Refleksi',
+      profile: 'Profil Siswa'
+    };
+
+    const pageSubtitles = {
+      dashboard: 'Pantau aktivitas intervensi self-compassion dan lanjutkan modul yang sedang berjalan.',
+      modules: 'Materi self-compassion bisa berupa artikel, latihan, audio, dan video.',
+      exercise: 'Latihan refleksi, mindfulness, dan self-compassion statement untuk mendukung intervensi.',
+      progress: 'Pantau progress modul, aktivitas, dan jurnal siswa secara real-time dari Google Sheet.',
+      reminder: 'Buat pesan pengingat agar intervensi dilakukan secara berkelanjutan.',
+      journal: 'Simpan refleksi siswa berdasarkan ID user, kode responden, mood, dan waktu pengisian.'
+    };
+
+    const statements = [
+      'Tidak apa-apa merasa belum siap. Kamu sedang belajar, bukan sedang dituntut sempurna.',
+      'Rasa cemas ini valid, tetapi kamu tetap bisa mengambil satu langkah kecil hari ini.',
+      'Gagal memahami materi bukan berarti gagal sebagai pribadi.',
+      'Aku boleh lelah, aku boleh istirahat, dan aku bisa mulai lagi dengan lebih pelan.',
+      'Aku sedang berusaha menghadapi hal yang sulit, dan usaha kecilku tetap berarti.',
+      'Aku tidak sendirian. Banyak siswa juga merasa takut, dan itu manusiawi.'
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.toggle-password').forEach(function(button) {
+        button.innerHTML = ICON_EYE;
+      });
+
+      const savedUser = localStorage.getItem('lms_current_user');
+
+      if (savedUser) {
+        try {
+          currentUser = JSON.parse(savedUser);
+          showDashboard(currentUser);
+        } catch (error) {
+          localStorage.removeItem('lms_current_user');
+          resetToLoginPage();
+        }
+      } else {
+        resetToLoginPage();
+      }
+    });
+
+    function resetToLoginPage() {
+      currentUser = null;
+      document.getElementById('dashboardPage').classList.remove('active');
+      document.getElementById('authPage').style.display = 'flex';
+      switchForm('login');
+    }
+
+    function switchForm(type) {
+      clearAlert();
+
+      const authTabs = document.getElementById('authTabs');
+      const loginTab = document.getElementById('loginTab');
+      const registerTab = document.getElementById('registerTab');
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const verifyForm = document.getElementById('verifyForm');
+
+      loginForm.classList.remove('active');
+      registerForm.classList.remove('active');
+      verifyForm.classList.remove('active');
+
+      if (type === 'login') {
+        authTabs.style.display = 'grid';
+        loginTab.classList.add('active');
+        registerTab.classList.remove('active');
+        loginForm.classList.add('active');
+      } else if (type === 'register') {
+        authTabs.style.display = 'grid';
+        registerTab.classList.add('active');
+        loginTab.classList.remove('active');
+        registerForm.classList.add('active');
+      } else if (type === 'verify') {
+        authTabs.style.display = 'none';
+        loginTab.classList.remove('active');
+        registerTab.classList.remove('active');
+        verifyForm.classList.add('active');
+      }
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      clearAlert();
+
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      setLoading('loginBtn', true, 'Memproses...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('loginBtn', false, 'Masuk ke Dashboard');
+
+          if (!response.success) {
+            if (response.requiresVerification) {
+              document.getElementById('verifyEmail').value = response.email || email;
+              switchForm('verify');
+              showAlert(response.message, 'info');
+              return;
+            }
+
+            showAlert(response.message, 'error');
+            return;
+          }
+
+          localStorage.setItem('lms_current_user', JSON.stringify(response.user));
+          showDashboard(response.user);
+        })
+        .withFailureHandler(function(error) {
+          setLoading('loginBtn', false, 'Masuk ke Dashboard');
+          showAlert('Gagal masuk: ' + error.message, 'error');
+        })
+        .loginUser({
+          email: email,
+          password: password
+        });
+    }
+
+    function handleRegister(event) {
+      event.preventDefault();
+      clearAlert();
+
+      const nama = document.getElementById('registerNama').value.trim();
+      const email = document.getElementById('registerEmail').value.trim();
+      const kelas = document.getElementById('registerKelas').value;
+      const sekolah = document.getElementById('registerSekolah').value.trim();
+      const password = document.getElementById('registerPassword').value;
+      const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+
+      if (password !== passwordConfirm) {
+        showAlert('Konfirmasi password belum sama.', 'error');
+        return;
+      }
+
+      setLoading('registerBtn', true, 'Mengirim OTP...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('registerBtn', false, 'Daftar & Kirim OTP');
+
+          if (!response.success) {
+            showAlert(response.message, 'error');
+            return;
+          }
+
+          document.getElementById('registerForm').reset();
+          document.getElementById('verifyEmail').value = response.email || email;
+          switchForm('verify');
+          showAlert(response.message, 'info');
+        })
+        .withFailureHandler(function(error) {
+          setLoading('registerBtn', false, 'Daftar & Kirim OTP');
+          showAlert('Gagal daftar atau mengirim OTP: ' + error.message, 'error');
+        })
+        .registerUser({
+          nama: nama,
+          email: email,
+          kelas: kelas,
+          sekolah: sekolah,
+          password: password
+        });
+    }
+
+    function handleVerifyOtp(event) {
+      event.preventDefault();
+      clearAlert();
+
+      const email = document.getElementById('verifyEmail').value.trim();
+      const otp = document.getElementById('verifyOtp').value.trim();
+
+      setLoading('verifyBtn', true, 'Memverifikasi...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('verifyBtn', false, 'Verifikasi Email');
+
+          if (!response.success) {
+            showAlert(response.message, response.expired ? 'info' : 'error');
+            return;
+          }
+
+          document.getElementById('verifyOtp').value = '';
+          switchForm('login');
+          document.getElementById('loginEmail').value = email;
+          document.getElementById('loginPassword').focus();
+          showAlert(response.message, 'success');
+        })
+        .withFailureHandler(function(error) {
+          setLoading('verifyBtn', false, 'Verifikasi Email');
+          showAlert('Gagal verifikasi OTP: ' + error.message, 'error');
+        })
+        .verifyOtp({
+          email: email,
+          otp: otp
+        });
+    }
+
+    function handleResendOtp() {
+      clearAlert();
+
+      const email = document.getElementById('verifyEmail').value.trim();
+
+      if (!email) {
+        showAlert('Email belum tersedia.', 'error');
+        return;
+      }
+
+      setLoading('resendBtn', true, 'Mengirim ulang...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('resendBtn', false, 'Kirim Ulang OTP');
+
+          if (!response.success) {
+            showAlert(response.message, 'error');
+            return;
+          }
+
+          showAlert(response.message, 'success');
+        })
+        .withFailureHandler(function(error) {
+          setLoading('resendBtn', false, 'Kirim Ulang OTP');
+          showAlert('Gagal mengirim ulang OTP: ' + error.message, 'error');
+        })
+        .resendOtp({
+          email: email
+        });
+    }
+
+    function showDashboard(user) {
+      currentUser = user;
+
+      document.getElementById('authPage').style.display = 'none';
+      document.getElementById('dashboardPage').classList.add('active');
+
+      const firstName = getFirstName(user.nama);
+
+      document.getElementById('dashboardTitle').textContent = 'Dashboard Intervensi';
+      document.getElementById('welcomeName').textContent = 'Selamat datang, ' + firstName + '. Kamu sudah masuk ke LMS Self-Compassion.';
+      document.getElementById('sidebarKode').textContent = user.kodeResponden || '-';
+      document.getElementById('sidebarEmail').textContent = user.email || '-';
+      document.getElementById('topbarClass').textContent = 'Kelas ' + (user.kelas || 'XI');
+      renderProfilePage();
+
+      openPageByName('dashboard');
+      loadStudentDashboardData();
+    }
+
+    function updateDashboardNextAction() {
+      const title = document.getElementById('dashboardNextTitle');
+      const text = document.getElementById('dashboardNextText');
+
+      if (!title || !text || !dashboardCache || !dashboardCache.modules) {
+        return;
+      }
+
+      const runningModule = dashboardCache.modules.find(function(module) {
+        return module.status === 'BERJALAN';
+      });
+
+      if (runningModule) {
+        const nextLesson = (runningModule.lessons || []).find(function(lesson) {
+          return !lesson.completed;
+        });
+
+        title.textContent = 'Lanjutkan: ' + runningModule.judul;
+        text.textContent = nextLesson
+          ? 'Aktivitas berikutnya: ' + nextLesson.judul + '.'
+          : 'Semua aktivitas modul ini sudah selesai.';
+        return;
+      }
+
+      const lockedModule = dashboardCache.modules.find(function(module) {
+        return module.status === 'TERKUNCI';
+      });
+
+      if (lockedModule) {
+        title.textContent = 'Modul berikutnya masih terkunci';
+        text.textContent = 'Selesaikan modul berjalan agar modul berikutnya terbuka.';
+      } else {
+        title.textContent = 'Program selesai';
+        text.textContent = 'Kamu sudah menyelesaikan semua modul. Pertahankan kebiasaan refleksi.';
+      }
+    }
+
+    function openNextRunningModule() {
+      if (!dashboardCache || !dashboardCache.modules) {
+        openPageByName('modules');
+        return;
+      }
+
+      const runningModule = dashboardCache.modules.find(function(module) {
+        return module.status === 'BERJALAN';
+      });
+
+      if (runningModule) {
+        openModule(runningModule.moduleId);
+        return;
+      }
+
+      openPageByName('modules');
+    }
+
+    function renderProfilePage() {
+      if (!currentUser) {
+        return;
+      }
+
+      const nama = currentUser.nama || 'Siswa';
+      const initials = nama
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(function(part) { return part.charAt(0).toUpperCase(); })
+        .join('') || 'SC';
+
+      const avatar = document.getElementById('profileAvatar');
+      const displayName = document.getElementById('profileDisplayName');
+      const displayMeta = document.getElementById('profileDisplayMeta');
+
+      if (avatar) avatar.textContent = initials;
+      if (displayName) displayName.textContent = nama;
+      if (displayMeta) {
+        displayMeta.textContent = (currentUser.kodeResponden || '-') + ' · ' + (currentUser.email || '-');
+      }
+
+      const topbarAvatar = document.getElementById('topbarAvatar');
+      const topbarName = document.getElementById('topbarProfileName');
+      const topbarCode = document.getElementById('topbarProfileCode');
+
+      if (topbarAvatar) topbarAvatar.textContent = initials;
+      if (topbarName) topbarName.textContent = nama;
+      if (topbarCode) topbarCode.textContent = currentUser.kodeResponden || 'Kode Responden';
+
+      if (document.getElementById('profileNama')) {
+        document.getElementById('profileNama').value = currentUser.nama || '';
+        document.getElementById('profileEmail').textContent = currentUser.email || '-';
+        document.getElementById('profileKode').textContent = currentUser.kodeResponden || '-';
+        document.getElementById('profileKelas').value = currentUser.kelas || 'XI';
+        document.getElementById('profileSekolah').value = currentUser.sekolah || '';
+      }
+    }
+
+    function saveProfile() {
+      if (!currentUser) {
+        showAppAlert('Silakan login ulang.', 'error');
+        return;
+      }
+
+      const nama = document.getElementById('profileNama').value.trim();
+      const kelas = document.getElementById('profileKelas').value;
+      const sekolah = document.getElementById('profileSekolah').value.trim();
+
+      if (!nama) {
+        showAppAlert('Nama tidak boleh kosong.', 'error');
+        return;
+      }
+
+      setLoading('saveProfileBtn', true, 'Menyimpan...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('saveProfileBtn', false, 'Simpan Profil');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          currentUser = response.user;
+          localStorage.setItem('lms_current_user', JSON.stringify(currentUser));
+          document.getElementById('sidebarKode').textContent = currentUser.kodeResponden || '-';
+          document.getElementById('sidebarEmail').textContent = currentUser.email || '-';
+          document.getElementById('topbarClass').textContent = 'Kelas ' + (currentUser.kelas || 'XI');
+          document.getElementById('welcomeName').textContent = 'Halo, ' + (currentUser.nama || 'Siswa') + '.';
+          renderProfilePage();
+          showAppAlert(response.message, 'success');
+        })
+        .withFailureHandler(function(error) {
+          setLoading('saveProfileBtn', false, 'Simpan Profil');
+          showAppAlert('Gagal menyimpan profil: ' + error.message, 'error');
+        })
+        .updateStudentProfilePatch({
+          user: currentUser,
+          nama: nama,
+          kelas: kelas,
+          sekolah: sekolah
+        });
+    }
+
+    function changePassword() {
+      if (!currentUser) {
+        showAppAlert('Silakan login ulang.', 'error');
+        return;
+      }
+
+      const oldPassword = document.getElementById('oldPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!oldPassword || !newPassword || !confirmPassword) {
+        showAppAlert('Semua kolom password wajib diisi.', 'error');
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        showAppAlert('Password baru minimal 6 karakter.', 'error');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showAppAlert('Konfirmasi password baru tidak sama.', 'error');
+        return;
+      }
+
+      setLoading('changePasswordBtn', true, 'Mengganti...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('changePasswordBtn', false, 'Ganti Password');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          document.getElementById('oldPassword').value = '';
+          document.getElementById('newPassword').value = '';
+          document.getElementById('confirmPassword').value = '';
+          showAppAlert(response.message, 'success');
+        })
+        .withFailureHandler(function(error) {
+          setLoading('changePasswordBtn', false, 'Ganti Password');
+          showAppAlert('Gagal mengganti password: ' + error.message, 'error');
+        })
+        .changeStudentPasswordPatch({
+          user: currentUser,
+          oldPassword: oldPassword,
+          newPassword: newPassword
+        });
+    }
+
+    function openPage(page, button) {
+      document.querySelectorAll('.page-section').forEach(function(section) {
+        section.classList.remove('active');
+      });
+
+      document.getElementById('page-' + page).classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(function(item) {
+        item.classList.remove('active');
+      });
+
+      if (button) {
+        button.classList.add('active');
+      }
+
+      document.getElementById('dashboardTitle').textContent = pageTitles[page] || 'Dashboard';
+      document.getElementById('pageSubtitle').textContent = pageSubtitles[page] || '';
+
+      clearAppAlert();
+      closeMobileSidebar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openPageByName(page) {
+      const button = document.querySelector('.nav-item[data-page="' + page + '"]');
+      openPage(page, button);
+    }
+
+    function openMobileSidebar() {
+      document.getElementById('sidebar').classList.add('mobile-open');
+      document.getElementById('mobileOverlay').classList.add('active');
+    }
+
+    function closeMobileSidebar() {
+      document.getElementById('sidebar').classList.remove('mobile-open');
+      document.getElementById('mobileOverlay').classList.remove('active');
+    }
+
+    function loadStudentDashboardData() {
+      if (!currentUser) {
+        showAppAlert('Sesi siswa tidak valid. Silakan keluar lalu login ulang.', 'error');
+        return;
+      }
+
+      progressOnlyLoaded = false;
+      loadModulesForPage();
+    }
+
+    function loadModulesForPage() {
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (!response || !response.success) {
+            const msg = response && response.message ? response.message : 'Katalog modul belum bisa dimuat.';
+            setModuleLoadingError(msg);
+            return;
+          }
+
+          dashboardCache = response;
+          renderProgress(response.stats);
+          renderModules(response.modules);
+          renderDashboardModules(response.modules);
+          renderTimeline(response);
+          renderReminderPage(response.reminders);
+          renderProgressPage(response);
+          renderRecentJournals(response.recentJournals || []);
+
+          loadProgressOnlyData();
+        })
+        .withFailureHandler(function(error) {
+          setModuleLoadingError('Gagal memuat katalog modul: ' + error.message);
+        })
+        .getModulesForPage();
+    }
+
+    function loadProgressOnlyData() {
+      if (!currentUser || (!currentUser.kodeResponden && !currentUser.idUser)) {
+        showAppAlert('Sesi progress belum lengkap. Silakan logout lalu login ulang.', 'error');
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (!response || !response.success) {
+            showAppAlert(response && response.message ? response.message : 'Progress personal belum bisa dibaca.', 'error');
+            return;
+          }
+
+          progressOnlyLoaded = true;
+          applyProgressOnlyToDashboard(response.completedLessonIds || []);
+        })
+        .withFailureHandler(function(error) {
+          showAppAlert('Gagal membaca progress personal: ' + error.message, 'error');
+        })
+        .getProgressOnlyByIdentityPatch(currentUser.kodeResponden || '', currentUser.idUser || '');
+    }
+
+    function applyProgressOnlyToDashboard(completedLessonIds) {
+      if (!dashboardCache || !dashboardCache.modules) {
+        return;
+      }
+
+      const completedMap = {};
+      (completedLessonIds || []).forEach(function(lessonId) {
+        completedMap[String(lessonId || '').trim()] = true;
+      });
+
+      dashboardCache.modules = dashboardCache.modules.map(function(module, index) {
+        const lessons = (module.lessons || []).map(function(lesson) {
+          const completed = completedMap[String(lesson.lessonId || '').trim()] === true;
+          lesson.completed = completed;
+          return lesson;
+        });
+
+        const totalLessons = lessons.length;
+        const completedLessons = lessons.filter(function(lesson) {
+          return lesson.completed === true;
+        }).length;
+
+        const percentage = totalLessons > 0
+          ? Math.round((completedLessons / totalLessons) * 100)
+          : 0;
+
+        let status = 'TERKUNCI';
+
+        if (index === 0 || percentage > 0 || isPreviousModuleDoneClient(index, dashboardCache.modules, completedMap)) {
+          status = percentage >= 100 && totalLessons > 0 ? 'SELESAI' : 'BERJALAN';
+        }
+
+        module.lessons = lessons;
+        module.totalLessons = totalLessons;
+        module.completedLessons = completedLessons;
+        module.percentage = percentage;
+        module.status = status;
+
+        return module;
+      });
+
+      const totalLessons = dashboardCache.modules.reduce(function(sum, module) {
+        return sum + Number(module.totalLessons || 0);
+      }, 0);
+
+      const completedLessons = dashboardCache.modules.reduce(function(sum, module) {
+        return sum + Number(module.completedLessons || 0);
+      }, 0);
+
+      const totalModules = dashboardCache.modules.length;
+      const completedModules = dashboardCache.modules.filter(function(module) {
+        return module.status === 'SELESAI';
+      }).length;
+
+      dashboardCache.stats = {
+        totalModules: totalModules,
+        completedModules: completedModules,
+        totalLessons: totalLessons,
+        completedLessons: completedLessons,
+        totalJournals: dashboardCache.stats ? dashboardCache.stats.totalJournals || 0 : 0,
+        overallProgress: totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0
+      };
+
+      renderProgress(dashboardCache.stats);
+      renderModules(dashboardCache.modules);
+      renderDashboardModules(dashboardCache.modules);
+      renderProgressPage(dashboardCache);
+
+      if (selectedModule) {
+        const updatedSelected = dashboardCache.modules.find(function(module) {
+          return module.moduleId === selectedModule.moduleId;
+        });
+
+        if (updatedSelected) {
+          selectedModule = updatedSelected;
+          renderPremiumModuleModal();
+        }
+      }
+    }
+
+    function isPreviousModuleDoneClient(index, modules, completedMap) {
+      if (index <= 0) {
+        return true;
+      }
+
+      const previous = modules[index - 1];
+
+      if (!previous || !previous.lessons || previous.lessons.length === 0) {
+        return false;
+      }
+
+      return previous.lessons.every(function(lesson) {
+        return completedMap[String(lesson.lessonId || '').trim()] === true;
+      });
+    }
+
+    function setModuleLoadingError(message) {
+      const targetIds = ['moduleList', 'dashboardModuleList', 'progressModuleList'];
+
+      targetIds.forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.innerHTML = '<div class="list-item"><strong>Modul belum bisa dimuat</strong><span>' + escapeClientHtml(message || 'Terjadi kendala saat mengambil data modul.') + '</span><p style="margin-top:8px;color:#374151;font-size:13px;line-height:1.6;">Jalankan fungsi <b>testModulesForPage()</b> di Apps Script editor lalu kirim hasilnya.</p></div>';
+        }
+      });
+    }
+
+    function renderProgress(stats) {
+      const percent = Number(stats.overallProgress || 0);
+      const name = currentUser && currentUser.nama ? currentUser.nama : 'Siswa';
+      const firstName = name.split(' ')[0] || 'Siswa';
+
+      document.getElementById('overallProgressText').textContent = percent + '%';
+      document.getElementById('progressRing').style.background =
+        'conic-gradient(var(--primary) ' + percent + '%, #E5E7EB 0)';
+
+      let progressMessage = '';
+      let encouragement = '';
+
+      if (percent >= 100) {
+        progressMessage = 'Hebat, ' + firstName + '. Kamu sudah menyelesaikan seluruh aktivitas intervensi self-compassion.';
+        encouragement = 'Gunakan menu jurnal untuk menjaga kebiasaan refleksi dan self-kindness.';
+      } else if (percent >= 60) {
+        progressMessage = firstName + ', progress intervensimu sudah ' + percent + '%. Kamu semakin dekat menyelesaikan program.';
+        encouragement = 'Lanjutkan aktivitas yang sedang berjalan agar ritme belajarmu tetap stabil.';
+      } else if (percent > 0) {
+        progressMessage = firstName + ', kamu sudah menyelesaikan ' + stats.completedLessons + ' dari ' + stats.totalLessons + ' aktivitas.';
+        encouragement = 'Ambil satu langkah kecil lagi hari ini. Tidak perlu sempurna, yang penting berproses.';
+      } else {
+        progressMessage = firstName + ', kamu belum memulai aktivitas. Mulai dari modul pertama dengan pelan dan sadar.';
+        encouragement = 'Mulai dari satu aktivitas singkat untuk mengenali tekanan akademikmu.';
+      }
+
+      document.getElementById('progressSummary').textContent =
+        progressMessage + ' Jurnal tersimpan: ' + stats.totalJournals + '.';
+
+      const personalMessage = document.getElementById('dashboardPersonalMessage');
+      if (personalMessage) {
+        personalMessage.textContent = encouragement;
+      }
+
+      document.getElementById('statTotalModules').textContent = stats.totalModules;
+      document.getElementById('statCompletedLessons').textContent = stats.completedLessons + '/' + stats.totalLessons;
+      document.getElementById('statCompletedModules').textContent = stats.completedModules + '/' + stats.totalModules;
+      document.getElementById('statTotalJournals').textContent = stats.totalJournals;
+
+      updateDashboardNextAction();
+      renderProfilePage();
+    }
+
+    function renderModules(modules) {
+      const moduleList = document.getElementById('moduleList');
+
+      if (!modules || modules.length === 0) {
+        moduleList.innerHTML = '<p class="empty-state">Modul belum tersedia.</p>';
+        return;
+      }
+
+      moduleList.innerHTML = modules.map(moduleCardHtml).join('');
+    }
+
+    function renderDashboardModules(modules) {
+      const dashboardModuleList = document.getElementById('dashboardModuleList');
+
+      if (!modules || modules.length === 0) {
+        dashboardModuleList.innerHTML = '<p class="empty-state">Modul belum tersedia.</p>';
+        return;
+      }
+
+      const running = modules.filter(function(module) {
+        return module.status === 'BERJALAN';
+      });
+
+      const completed = modules.filter(function(module) {
+        return module.status === 'SELESAI';
+      }).slice(-1);
+
+      const recommended = running.length ? running : (completed.length ? completed : modules.slice(0, 1));
+
+      dashboardModuleList.innerHTML = recommended.slice(0, 3).map(moduleCardHtml).join('');
+    }
+
+    function moduleCardHtml(module) {
+      let badgeClass = 'status-locked';
+      let label = '🔒 Terkunci';
+      let cardClass = 'locked-card';
+      let buttonHtml = `<button type="button" class="btn-outline btn-locked" style="margin-top:10px;" disabled><span class="lock-symbol">🔒</span>Terkunci</button>`;
+
+      if (module.status === 'SELESAI') {
+        badgeClass = 'status-done';
+        label = 'Selesai';
+        cardClass = '';
+        buttonHtml = `<button type="button" class="btn-outline" style="margin-top:10px;" onclick="openModule('${module.moduleId}')">Lihat Modul</button>`;
+      } else if (module.status === 'BERJALAN') {
+        badgeClass = 'status-progress';
+        label = 'Berjalan';
+        cardClass = '';
+        buttonHtml = `<button type="button" class="btn-outline" style="margin-top:10px;" onclick="openModule('${module.moduleId}')">Buka Modul</button>`;
+      }
+
+      const number = String(module.urutan).padStart(2, '0');
+
+      return `
+        <div class="module-item ${cardClass}">
+          <div class="module-number">${number}</div>
+          <div>
+            <h4>${escapeClientHtml(module.judul)}</h4>
+            <p>${escapeClientHtml(module.deskripsi)}</p>
+            <p style="margin-top:6px;">Progress: ${module.percentage}% · ${module.completedLessons}/${module.totalLessons} aktivitas</p>
+            ${buttonHtml}
+          </div>
+          <span class="status-badge ${badgeClass}">${label}</span>
+        </div>
+      `;
+    }
+
+    function renderTimeline(response) {
+      const timeline = document.getElementById('dashboardReminderList');
+      const reminders = response.reminders || [];
+
+      if (reminders.length > 0) {
+        timeline.innerHTML = reminders.slice(0, 4).map(function(reminder, index) {
+          return `
+            <div class="timeline-item">
+              <div class="timeline-dot">${index + 1}</div>
+              <div class="timeline-content">
+                <h4>${escapeClientHtml(reminder.title)}</h4>
+                <p>${escapeClientHtml(reminder.message)}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+        return;
+      }
+
+      timeline.innerHTML = defaultReminderHtml();
+    }
+
+    function defaultReminderHtml() {
+      return `
+        <div class="timeline-item">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-content">
+            <h4>Mulai Modul</h4>
+            <p>Baca modul pertama tentang tekanan akademik dan persiapan ujian masuk PTN.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-content">
+            <h4>Tulis Refleksi</h4>
+            <p>Catat perasaanmu hari ini secara jujur dan aman.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">3</div>
+          <div class="timeline-content">
+            <h4>Ambil Jeda</h4>
+            <p>Luangkan 3 menit untuk bernapas dan menyadari emosi tanpa menghakimi diri.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProgressPage(response) {
+      const stats = response.stats;
+
+      document.getElementById('progressPageOverall').textContent = stats.overallProgress + '%';
+      document.getElementById('progressPageModules').textContent = stats.completedModules + '/' + stats.totalModules;
+      document.getElementById('progressPageLessons').textContent = stats.completedLessons + '/' + stats.totalLessons;
+      document.getElementById('progressPageJournals').textContent = stats.totalJournals;
+
+      const progressModuleList = document.getElementById('progressModuleList');
+
+      if (!response.modules || response.modules.length === 0) {
+        progressModuleList.innerHTML = '<p class="empty-state">Belum ada data progress modul.</p>';
+        return;
+      }
+
+      progressModuleList.innerHTML = response.modules.map(function(module) {
+        return `
+          <div class="list-item">
+            <strong>${String(module.urutan).padStart(2, '0')}. ${escapeClientHtml(module.judul)}</strong>
+            <span>Status: ${module.status} · Progress: ${module.percentage}% · ${module.completedLessons}/${module.totalLessons} aktivitas selesai</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderReminderPage(reminders) {
+      const reminderList = document.getElementById('reminderList');
+
+      if (!reminders || reminders.length === 0) {
+        reminderList.innerHTML = defaultReminderHtml();
+        return;
+      }
+
+      reminderList.innerHTML = reminders.map(function(reminder, index) {
+        return `
+          <div class="timeline-item">
+            <div class="timeline-dot">${index + 1}</div>
+            <div class="timeline-content">
+              <h4>${escapeClientHtml(reminder.title)}</h4>
+              <p>${escapeClientHtml(reminder.message)}</p>
+              <button class="btn-outline" style="margin-top:10px;" onclick="disableUserReminder('${reminder.reminderId}')">Nonaktifkan</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRecentJournals(journals) {
+      const recentJournalList = document.getElementById('recentJournalList');
+
+      if (!journals || journals.length === 0) {
+        recentJournalList.innerHTML = '<p class="empty-state">Belum ada jurnal yang tersimpan.</p>';
+        return;
+      }
+
+      recentJournalList.innerHTML = journals.map(function(journal) {
+        return `
+          <div class="list-item">
+            <strong>${escapeClientHtml(journal.pertanyaan || 'Refleksi')}</strong>
+            <span>Mood: ${escapeClientHtml(journal.mood || '-')}</span>
+            <p style="margin-top:8px;color:#374151;font-size:13px;line-height:1.6;">${escapeClientHtml(journal.jawaban || '')}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openModule(moduleId) {
+      if (!dashboardCache || !dashboardCache.modules) {
+        return;
+      }
+
+      selectedModule = dashboardCache.modules.find(function(module) {
+        return module.moduleId === moduleId;
+      });
+
+      if (!selectedModule) {
+        showAppAlert('Modul tidak ditemukan.', 'info');
+        return;
+      }
+
+      if (selectedModule.status === 'TERKUNCI') {
+        showAppAlert('Modul ini masih terkunci. Selesaikan modul yang sedang berjalan terlebih dahulu.', 'info');
+        selectedModule = null;
+        return;
+      }
+
+      renderPremiumModuleModal();
+      document.getElementById('lessonModal').classList.add('active');
+    }
+
+    function renderPremiumModuleModal() {
+      if (!selectedModule) {
+        return;
+      }
+
+      document.getElementById('lessonModalTitle').textContent = selectedModule.judul;
+      document.getElementById('lessonModalDesc').textContent = selectedModule.deskripsi;
+      document.getElementById('lessonModalPill').textContent =
+        'Modul ' + String(selectedModule.urutan).padStart(2, '0') + ' · ' + selectedModule.status;
+
+      document.getElementById('lessonModalProgressText').textContent = 'Progress: ' + selectedModule.percentage + '%';
+      document.getElementById('lessonModalActivityText').textContent =
+        selectedModule.completedLessons + '/' + selectedModule.totalLessons + ' aktivitas selesai';
+      document.getElementById('lessonModalProgressFill').style.width = selectedModule.percentage + '%';
+
+      const lessonModalList = document.getElementById('lessonModalList');
+
+      if (!selectedModule.lessons || selectedModule.lessons.length === 0) {
+        lessonModalList.innerHTML = '<p class="empty-state">Belum ada materi dalam modul ini.</p>';
+      } else {
+        lessonModalList.innerHTML = selectedModule.lessons.map(function(lesson) {
+          const statusText = lesson.completed ? 'Selesai' : 'Belum selesai';
+          const statusClass = lesson.completed ? 'done' : 'progress';
+          const cardClass = lesson.completed ? 'done' : '';
+          const embedUrl = getVideoEmbedUrl(lesson.videoUrl);
+          const videoHtml = embedUrl
+            ? `
+              <div class="premium-video-frame">
+                <div class="premium-video-ratio">
+                  <iframe src="${embedUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+              </div>
+            `
+            : '';
+
+          return `
+            <div class="premium-lesson-card ${cardClass}">
+              <div class="premium-lesson-number">${lesson.completed ? '✓' : String(lesson.urutan).padStart(2, '0')}</div>
+              <div class="premium-lesson-main">
+                <strong>${escapeClientHtml(lesson.judul)}</strong>
+                ${videoHtml}
+                <p>${escapeClientHtml(lesson.konten)}</p>
+                <div class="premium-lesson-meta">
+                  <span class="premium-meta-pill ${statusClass}">${lesson.completed ? '✓' : '•'} ${statusText}</span>
+                  <span class="premium-meta-pill">${escapeClientHtml(lesson.tipeKonten)}</span>
+                  <span class="premium-meta-pill">${lesson.durasiMenit || 0} menit</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const nextLesson = getFirstIncompleteLesson(selectedModule);
+      const completeButton = document.getElementById('completeFirstLessonBtn');
+
+      if (selectedModule.status !== 'BERJALAN') {
+        completeButton.disabled = true;
+        completeButton.textContent = selectedModule.status === 'SELESAI' ? 'Selesai' : 'Terkunci';
+      } else {
+        completeButton.disabled = !nextLesson;
+        completeButton.textContent = 'Selesai';
+      }
+    }
+
+    function closeLessonModal() {
+      document.getElementById('lessonModal').classList.remove('active');
+      selectedModule = null;
+    }
+
+
+    function buildLessonVideoFrame(lesson, embedUrl, sourceLabel) {
+      const type = String(lesson.tipeKonten || '').toUpperCase();
+      const shouldShowFrame = embedUrl || type.indexOf('VIDEO') !== -1;
+
+      if (!shouldShowFrame) {
+        return '';
+      }
+
+      const title = escapeClientHtml(lesson.judul || 'Video Pembelajaran');
+      const duration = lesson.durasiMenit ? escapeClientHtml(lesson.durasiMenit) + ' menit' : 'Durasi menyesuaikan video';
+      const pill = sourceLabel ? escapeClientHtml(sourceLabel) : 'Video';
+
+      if (embedUrl) {
+        return `
+          <div class="module-video-frame">
+            <div class="module-video-ratio">
+              <iframe src="${embedUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div>
+            <div class="module-video-caption">
+              <div>
+                <strong>${title}</strong>
+                <span>Materi video pembelajaran · ${duration}</span>
+              </div>
+              <div class="video-source-pill">${pill}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="module-video-frame">
+          <div class="module-video-ratio">
+            <div class="module-video-placeholder">
+              <div class="play-circle">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+              </div>
+              <strong>Video Pembelajaran</strong>
+              <span>Video untuk materi ini belum tersedia.</span>
+            </div>
+          </div>
+          <div class="module-video-caption">
+            <div>
+              <strong>${title}</strong>
+              <span>Materi video · ${duration}</span>
+            </div>
+            <div class="video-source-pill">Video</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getVideoSourceLabel(url) {
+      const cleanUrl = String(url || '').trim();
+
+      if (!cleanUrl) {
+        return '';
+      }
+
+      if (cleanUrl.indexOf('youtu') !== -1) {
+        return 'YouTube';
+      }
+
+      if (cleanUrl.indexOf('drive.google.com') !== -1) {
+        return 'Google Drive';
+      }
+
+      return 'Video';
+    }
+
+    function getVideoEmbedUrl(url) {
+      const cleanUrl = String(url || '').trim();
+
+      if (!cleanUrl) {
+        return '';
+      }
+
+      let match = cleanUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{6,})/);
+
+      if (match && match[1]) {
+        return 'https://www.youtube.com/embed/' + match[1];
+      }
+
+      match = cleanUrl.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+
+      if (match && match[1]) {
+        return 'https://drive.google.com/file/d/' + match[1] + '/preview';
+      }
+
+      if (cleanUrl.indexOf('https://') === 0) {
+        return cleanUrl;
+      }
+
+      return '';
+    }
+
+    function getFirstIncompleteLesson(module) {
+      if (!module || !module.lessons) {
+        return null;
+      }
+
+      return module.lessons.find(function(lesson) {
+        return !lesson.completed;
+      }) || null;
+    }
+
+    function completeFirstAvailableLesson() {
+      if (!currentUser || !selectedModule) {
+        showAppAlert('Data belum lengkap.', 'error');
+        return;
+      }
+
+      if (selectedModule.status !== 'BERJALAN') {
+        showAppAlert('Progress hanya bisa diselesaikan pada modul yang sedang berjalan.', 'info');
+        return;
+      }
+
+      const lesson = getFirstIncompleteLesson(selectedModule);
+
+      if (!lesson) {
+        showAppAlert('Semua aktivitas dalam modul ini sudah selesai.', 'success');
+        return;
+      }
+
+      setLoading('completeFirstLessonBtn', true, 'Menyimpan...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('completeFirstLessonBtn', false, 'Selesai');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          closeLessonModal();
+          showAppAlert(response.message, 'success');
+
+          if (response.progress && response.progress.success) {
+            applyProgressOnlyToDashboard(response.progress.completedLessonIds || []);
+            return;
+          }
+
+          if (response.dashboard && response.dashboard.success) {
+            personalDashboardLoaded = true;
+            dashboardCache = response.dashboard;
+
+            if (response.dashboard.user) {
+              currentUser = response.dashboard.user;
+              localStorage.setItem('lms_current_user', JSON.stringify(response.dashboard.user));
+              document.getElementById('sidebarKode').textContent = response.dashboard.user.kodeResponden || '-';
+              document.getElementById('sidebarEmail').textContent = response.dashboard.user.email || '-';
+              document.getElementById('topbarClass').textContent = 'Kelas ' + (response.dashboard.user.kelas || 'XI');
+              document.getElementById('welcomeName').textContent = 'Halo, ' + (response.dashboard.user.nama || 'Siswa') + '.';
+              renderProfilePage();
+            }
+
+            renderProgress(response.dashboard.stats);
+            renderModules(response.dashboard.modules);
+            renderDashboardModules(response.dashboard.modules);
+            renderTimeline(response.dashboard);
+            renderReminderPage(response.dashboard.reminders);
+            renderProgressPage(response.dashboard);
+            renderRecentJournals(response.dashboard.recentJournals || []);
+          } else {
+            loadStudentDashboardData();
+          }
+        })
+        .withFailureHandler(function(error) {
+          setLoading('completeFirstLessonBtn', false, 'Selesai');
+          showAppAlert('Gagal menyimpan progress: ' + error.message, 'error');
+        })
+        .saveProgressOnlyByIdentityPatch(currentUser.kodeResponden || '', currentUser.idUser || '', currentUser.email || '', selectedModule.moduleId, lesson.lessonId);
+    }
+
+    function saveReflectionJournal() {
+      if (!currentUser) {
+        showAppAlert('Silakan login ulang.', 'error');
+        return;
+      }
+
+      const textarea = document.getElementById('journalInput');
+      const mood = document.getElementById('journalMood').value;
+      const jawaban = textarea.value.trim();
+
+      if (!jawaban) {
+        showAppAlert('Jurnal refleksi belum boleh kosong.', 'error');
+        return;
+      }
+
+      setLoading('saveJournalBtn', true, 'Menyimpan...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('saveJournalBtn', false, 'Simpan Refleksi');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          textarea.value = '';
+          document.getElementById('journalMood').value = '';
+          showAppAlert(response.message, 'success');
+          loadStudentDashboardData();
+        })
+        .withFailureHandler(function(error) {
+          setLoading('saveJournalBtn', false, 'Simpan Refleksi');
+          showAppAlert('Gagal menyimpan jurnal: ' + error.message, 'error');
+        })
+        .saveJournalReflection({
+          user: currentUser,
+          moduleId: 'MOD-001',
+          lessonId: '',
+          exerciseId: '',
+          tipeJurnal: 'SELF_REFLECTION',
+          pertanyaan: 'Apa yang kamu rasakan hari ini?',
+          jawaban: jawaban,
+          mood: mood
+        });
+    }
+
+    function saveExerciseJournal() {
+      if (!currentUser) {
+        showAppAlert('Silakan login ulang.', 'error');
+        return;
+      }
+
+      const textarea = document.getElementById('exerciseReflection');
+      const mood = document.getElementById('exerciseMood').value;
+      const jawaban = textarea.value.trim();
+
+      if (!jawaban) {
+        showAppAlert('Jawaban guide exercise belum boleh kosong.', 'error');
+        return;
+      }
+
+      setLoading('saveExerciseBtn', true, 'Menyimpan...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('saveExerciseBtn', false, 'Simpan Guide Exercise');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          textarea.value = '';
+          document.getElementById('exerciseMood').value = '';
+          showAppAlert(response.message, 'success');
+          loadStudentDashboardData();
+        })
+        .withFailureHandler(function(error) {
+          setLoading('saveExerciseBtn', false, 'Simpan Guide Exercise');
+          showAppAlert('Gagal menyimpan exercise: ' + error.message, 'error');
+        })
+        .saveExerciseReflection({
+          user: currentUser,
+          moduleId: 'MOD-003',
+          lessonId: 'LES-005',
+          exerciseId: 'EXC-001',
+          tipeJurnal: 'GUIDE_EXERCISE',
+          pertanyaan: 'Apa yang kamu rasakan hari ini? Apa yang ingin kamu katakan pada dirimu sendiri?',
+          jawaban: jawaban,
+          mood: mood
+        });
+    }
+
+    function saveReminder() {
+      if (!currentUser) {
+        showAppAlert('Silakan login ulang.', 'error');
+        return;
+      }
+
+      const judul = document.getElementById('reminderTitle').value.trim();
+      const pesan = document.getElementById('reminderMessage').value.trim();
+      const tipe = document.getElementById('reminderType').value;
+
+      if (!judul || !pesan) {
+        showAppAlert('Judul dan pesan reminder wajib diisi.', 'error');
+        return;
+      }
+
+      setLoading('saveReminderBtn', true, 'Menyimpan...');
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          setLoading('saveReminderBtn', false, 'Simpan Reminder');
+
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          document.getElementById('reminderTitle').value = '';
+          document.getElementById('reminderMessage').value = '';
+          document.getElementById('reminderType').value = 'DAILY';
+
+          showAppAlert(response.message, 'success');
+          loadStudentDashboardData();
+        })
+        .withFailureHandler(function(error) {
+          setLoading('saveReminderBtn', false, 'Simpan Reminder');
+          showAppAlert('Gagal menyimpan reminder: ' + error.message, 'error');
+        })
+        .createReminder({
+          user: currentUser,
+          judul: judul,
+          pesan: pesan,
+          tipe: tipe
+        });
+    }
+
+    function disableUserReminder(reminderId) {
+      if (!currentUser || !reminderId) {
+        showAppAlert('Data reminder belum lengkap.', 'error');
+        return;
+      }
+
+      google.script.run
+        .withSuccessHandler(function(response) {
+          if (!response.success) {
+            showAppAlert(response.message, 'error');
+            return;
+          }
+
+          showAppAlert(response.message, 'success');
+          loadStudentDashboardData();
+        })
+        .withFailureHandler(function(error) {
+          showAppAlert('Gagal menonaktifkan reminder: ' + error.message, 'error');
+        })
+        .disableReminder({
+          user: currentUser,
+          reminderId: reminderId
+        });
+    }
+
+    function startMindfulnessTimer() {
+      if (timerInterval) {
+        return;
+      }
+
+      timerInterval = setInterval(function() {
+        timerRemaining--;
+
+        if (timerRemaining <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          timerRemaining = 0;
+          updateTimerText();
+          showAppAlert('Latihan mindfulness selesai. Ambil napas terakhir dan sadari perasaanmu sekarang.', 'success');
+          return;
+        }
+
+        updateTimerText();
+      }, 1000);
+    }
+
+    function resetMindfulnessTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+
+      timerRemaining = 180;
+      updateTimerText();
+    }
+
+    function updateTimerText() {
+      const minutes = Math.floor(timerRemaining / 60);
+      const seconds = timerRemaining % 60;
+      document.getElementById('timerText').textContent =
+        String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+    }
+
+    function generateCompassionStatement() {
+      const randomIndex = Math.floor(Math.random() * statements.length);
+      document.getElementById('statementResult').textContent = statements[randomIndex];
+    }
+
+    function transformSelfCritic() {
+      const input = document.getElementById('selfCriticInput').value.trim();
+
+      if (!input) {
+        document.getElementById('selfCriticResult').textContent = 'Tulis dulu kritik diri yang sering muncul.';
+        return;
+      }
+
+      document.getElementById('selfCriticResult').textContent =
+        'Aku sedang merasa berat karena pikiran seperti: "' +
+        input +
+        '". Tapi pikiran ini bukan keseluruhan diriku. Aku boleh belajar pelan-pelan, meminta bantuan, dan mencoba satu langkah kecil hari ini.';
+    }
+
+    function logoutUser() {
+      localStorage.removeItem('lms_current_user');
+      currentUser = null;
+      dashboardCache = null;
+      selectedModule = null;
+
+      document.getElementById('dashboardPage').classList.remove('active');
+      document.getElementById('authPage').style.display = 'flex';
+
+      document.getElementById('loginPassword').value = '';
+      clearAlert();
+      switchForm('login');
+    }
+
+    function getFirstName(name) {
+      const cleanName = String(name || 'Siswa').trim();
+      return cleanName.split(' ')[0] || 'Siswa';
+    }
+
+    function togglePassword(inputId, button) {
+      const input = document.getElementById(inputId);
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        button.innerHTML = ICON_EYE_OFF;
+      } else {
+        input.type = 'password';
+        button.innerHTML = ICON_EYE;
+      }
+    }
+
+    function showAlert(message, type) {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = message;
+      alertBox.className = 'alert show ' + type;
+    }
+
+    function clearAlert() {
+      const alertBox = document.getElementById('alertBox');
+      alertBox.textContent = '';
+      alertBox.className = 'alert';
+    }
+
+    function showAppAlert(message, type) {
+      const alertBox = document.getElementById('appAlertBox');
+      alertBox.textContent = message;
+      alertBox.className = 'alert show ' + type;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function clearAppAlert() {
+      const alertBox = document.getElementById('appAlertBox');
+      alertBox.textContent = '';
+      alertBox.className = 'alert';
+    }
+
+    function setLoading(buttonId, isLoading, text) {
+      const button = document.getElementById(buttonId);
+      button.disabled = isLoading;
+      button.textContent = text;
+    }
+
+    function escapeClientHtml(text) {
+      return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
